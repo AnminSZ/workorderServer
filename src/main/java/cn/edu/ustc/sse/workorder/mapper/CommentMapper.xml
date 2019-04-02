@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ustc.sse.workorder.mapper.CommentMapper">
+    <select id="selectCommentsByOrderId" parameterType="java.lang.Integer"
+        resultType="cn.edu.ustc.sse.workorder.bean.Comment">
+        select * from comment where orderId = #{orderId} order by createtime ASC
+    </select>
+
+    <insert id="insertComment" parameterType="cn.edu.ustc.sse.workorder.bean.Comment">
+        insert into comment(orderid,content,role,createtime)
+          values (#{orderid},#{content},#{role},#{createtime})
+    </insert>
+</mapper>
