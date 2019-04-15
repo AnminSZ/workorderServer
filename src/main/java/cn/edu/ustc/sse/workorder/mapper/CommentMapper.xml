@@ -7,7 +7,7 @@
     </select>
 
     <insert id="insertComment" parameterType="cn.edu.ustc.sse.workorder.bean.Comment">
-        insert into comment(orderid,content,role,createtime)
-          values (#{orderid},#{content},#{role},#{createtime})
+        insert into comment(orderid,content,role,createtime,attachment)
+          values (#{orderid},#{content},#{role},#{createtime},#{attachment})
     </insert>
 </mapper>

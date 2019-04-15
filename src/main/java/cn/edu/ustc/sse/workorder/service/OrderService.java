@@ -2,13 +2,13 @@ package cn.edu.ustc.sse.workorder.service;
 
 import cn.edu.ustc.sse.workorder.bean.OrderInfo;
 import cn.edu.ustc.sse.workorder.bean.OrderInfoCustom;
+import cn.edu.ustc.sse.workorder.common.OrderNumberFactory;
 import cn.edu.ustc.sse.workorder.mapper.OrderMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -28,6 +28,8 @@ public class OrderService {
     }
 
     public int insertOrder(OrderInfo orderInfo){
+        String number = OrderNumberFactory.getRandomOrderNumber();
+        orderInfo.setNumber(number);
         return orderMapper.insert(orderInfo);
     }
 
@@ -57,4 +59,6 @@ public class OrderService {
     public int updateOrderStatus(OrderInfo orderInfo){
         return orderMapper.updateStatus(orderInfo);
     }
+
+
 }

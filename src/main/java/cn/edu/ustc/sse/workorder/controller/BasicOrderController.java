@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.UUID;
 
 @RestController
@@ -21,7 +22,7 @@ public class BasicOrderController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public PageInfo<OrderInfo> getAllOrders(@RequestParam(value = "page", defaultValue = "1") int page,
-                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+                                            @RequestParam(value = "pageSize", defaultValue = "8") int pageSize)  {
         return orderService.getAllOrders(page, pageSize);
     }
 
@@ -53,18 +54,20 @@ public class BasicOrderController {
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public RespBean insertOrder(OrderInfo orderInfo, MultipartFile attachment) throws IOException {
+    public RespBean insertOrder(OrderInfo orderInfo, MultipartFile attachmentTemp) throws IOException {
         //原始名称
-        String originalFileName = attachment.getOriginalFilename();
-        if (attachment != null && originalFileName != "" && originalFileName != null) {
-            //存储图片的物理地址
-            String filePath = "F:\\IDEAProjects\\workorder\\src\\main\\resources\\static\\uploadfiles";
-            //新的文件名称
-            String newFileName = UUID.randomUUID() + originalFileName.substring(originalFileName.indexOf('.'));
-            File file = new File(filePath + newFileName);
-            //文件写入磁盘
-            attachment.transferTo(file);
-            orderInfo.setAttachment(file.getAbsolutePath());
+        if(attachmentTemp!=null) {
+            String originalFileName = attachmentTemp.getOriginalFilename();
+            if (originalFileName != "" && originalFileName != null) {
+                //存储图片的物理地址
+                String filePath = "F:\\IDEAProjects\\workorder\\src\\main\\resources\\static\\uploadfiles\\";
+                //新的文件名称
+                String newFileName = UUID.randomUUID() + originalFileName.substring(originalFileName.indexOf('.'));
+                File file = new File(filePath + newFileName);
+                //文件写入磁盘
+                attachmentTemp.transferTo(file);
+                orderInfo.setAttachment(file.getAbsolutePath());
+            }
         }
         if (orderService.insertOrder(orderInfo) == 1)
             return new RespBean("success", "添加成功");
@@ -84,4 +87,6 @@ public class BasicOrderController {
             return new RespBean("success", "更新成功");
         return new RespBean("error", "更新失败");
     }
+
+
 }

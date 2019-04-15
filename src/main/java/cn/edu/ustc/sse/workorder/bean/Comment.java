@@ -15,6 +15,17 @@ public class Comment {
     private int role;
     private Date createtime;
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    private String attachment;
+
+
     public int getId() {
         return id;
     }

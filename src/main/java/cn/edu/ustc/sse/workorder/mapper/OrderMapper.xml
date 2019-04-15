@@ -69,13 +69,13 @@
                 and userID = #{userID}
             </if>
             <if test="number!=null and number!='' ">
-                and 'number' = #{number}
+                and number = #{number}
             </if>
-            <if test="startTime!=null and startTime!='' and endTime!=null and endTime!='' ">
+            <if test="startTime!=null  and endTime!=null  ">
                 and createTime between #{startTime} and #{endTime}
             </if>
             <if test="keyword!=null and keyword!='' ">
-                and title like concat('%' , #{keyword} ,'%') or content like concat('%' , #{keyword} ,'%')
+                and (title like concat('%' , #{keyword} ,'%') or content like concat('%' , #{keyword} ,'%'))
             </if>
         </where>
     </select>
@@ -121,9 +121,6 @@
         -->
         update OrderInfo
         <set>
-            <if test="id != null">
-                id = #{id,jdbcType=INTEGER},
-            </if>
             <if test="number != null">
                 number = #{number,jdbcType=VARCHAR},
             </if>
@@ -164,17 +161,13 @@
                 content = #{content,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id=#{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
     </update>
 
     <!--更新工单的状态  频繁操作  所以单独一个接口-->
     <update id="updateStatus" parameterType="cn.edu.ustc.sse.workorder.bean.OrderInfo">
-        update OrderInfo
-        <set>
-            <if test="status!=null">
-                status=#{status,jdbcType=INTEGER}
-            </if>
-        </set>
-        where id=#{id}
+        update OrderInfo set status=#{status,jdbcType=INTEGER} where id= #{id}
     </update>
+
+
 </mapper>
