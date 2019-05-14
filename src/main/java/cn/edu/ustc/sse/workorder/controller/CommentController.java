@@ -35,11 +35,11 @@ public class CommentController {
             String originalFileName = attachmentTemp.getOriginalFilename();
             if (originalFileName != "" && originalFileName != null) {
                 //存储图片的物理地址
-                String filePath = "F:\\IDEAProjects\\workorderUI\\static\\uploads\\";
+                String filePath = "/root/Desktop/userdist/static/uploads//";
                 //子文件夹
                 String sonPath = new SimpleDateFormat("yyyyMMdd").format(new Date());
                 //存储的完整目录
-                String fullPath = filePath + sonPath + "\\";
+                String fullPath = filePath + sonPath + "/";
                 //新的文件名称
                 String newFileName = UUID.randomUUID() + originalFileName.substring(originalFileName.indexOf('.'));
                 File file = new File(fullPath + newFileName);
@@ -52,7 +52,7 @@ public class CommentController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String urlPath = "..\\..\\static\\uploads\\"+sonPath+"\\"+newFileName;
+                String urlPath = "../../static/uploads/"+sonPath+"/"+newFileName;
                 comment.setAttachment(urlPath);
             }
         }
